@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import tabia.health.myfinances.exception.BusinessRuleException;
 import tabia.health.myfinances.model.entity.Launch;
 import tabia.health.myfinances.model.enums.LaunchStatus;
+import tabia.health.myfinances.model.enums.LaunchType;
 import tabia.health.myfinances.repository.LaunchRepository;
 
 @Service
@@ -55,6 +56,19 @@ public class LaunchService {
     public void updateStatus(Launch launch, LaunchStatus status){
         launch.setLaunchStatus(status);
         update(launch);
+    }
+
+    //retorna  receita - despesas
+    public BigDecimal getBalanceByUser(Long id){
+        BigDecimal revenue = launchRepository.getBalanceByUser(id, LaunchType.REVENUE.name());
+        BigDecimal expense = launchRepository.getBalanceByUser(id, LaunchType.EXPENSE.name());
+        if(revenue == null){
+            revenue = BigDecimal.ZERO;
+        }
+        if(expense == null){
+            expense = BigDecimal.ZERO;
+        }
+        return revenue.subtract(expense);
     }
 
     private void validate(Launch launch){

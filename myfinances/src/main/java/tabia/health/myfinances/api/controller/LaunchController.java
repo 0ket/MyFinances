@@ -99,6 +99,26 @@ public class LaunchController {
 		List<Launch> launch = launchService.getLaunchList(launchFilter);
 		return ResponseEntity.ok(launch);
 	}
+    @PutMapping("/update-status/{id}")
+	public ResponseEntity updateStatus( @PathVariable("id") Long id , @RequestBody String status ) {
+		return launchService.findById(id).map( entityLaunch -> {
+			LaunchStatus launchStatus = LaunchStatus.valueOf(status);
+			
+			if(launchStatus == null) {
+				return ResponseEntity.badRequest().body("Unable to update, please submit a valid status");
+			}
+			
+			try {
+				entityLaunch.setLaunchStatus(launchStatus);
+				launchService.update(entityLaunch);
+				return ResponseEntity.ok(entityLaunch);
+			}catch (BusinessRuleException e) {
+				return ResponseEntity.badRequest().body(e.getMessage());
+			}
+		
+		}).orElseGet( () ->
+		new ResponseEntity("Lancamento não encontrado na base de Dados.", HttpStatus.BAD_REQUEST) );
+	}
 
     private Launch convertLaunchDTO( LaunchDTO launchDTO )
     {
