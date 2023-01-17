@@ -1,6 +1,8 @@
 package tabia.health.myfinances.model.entity;
 import jakarta.persistence.*;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
+import tabia.health.myfinances.model.enums.LaunchStatus;
+import tabia.health.myfinances.model.enums.LaunchType;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -15,15 +17,15 @@ public class Launch {
 
     private String description;
 
-    private int month;
+    private Integer month;
 
-    private int year;
+    private Integer year;
 
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;
 
-    private BigDecimal valor;
+    private BigDecimal value;
 
     //data de cadastro
     @Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)
@@ -38,15 +40,15 @@ public class Launch {
     public Launch() {
     }
 
-    public Launch(String description, int month,
-                  int year, User user, BigDecimal valor,
+    public Launch(String description, Integer month,
+                  Integer year, User user, BigDecimal value,
                   LocalDate registrationDate, LaunchType launchType,
                   LaunchStatus launchStatus) {
         this.description = description;
         this.month = month;
         this.year = year;
         this.user = user;
-        this.valor = valor;
+        this.value = value;
         this.registrationDate = registrationDate;
         this.launchType = launchType;
         this.launchStatus = launchStatus;
@@ -68,19 +70,19 @@ public class Launch {
         this.description = description;
     }
 
-    public int getMonth() {
+    public Integer getMonth() {
         return month;
     }
 
-    public void setMonth(int month) {
+    public void setMonth(Integer month) {
         this.month = month;
     }
 
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 
@@ -92,12 +94,12 @@ public class Launch {
         this.user = user;
     }
 
-    public BigDecimal getValor() {
-        return valor;
+    public BigDecimal getValue() {
+        return value;
     }
 
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
+    public void setValue(BigDecimal value) {
+        this.value = value;
     }
 
     public LocalDate getRegistrationDate() {
@@ -145,7 +147,7 @@ public class Launch {
                 ", month=" + month +
                 ", year=" + year +
                 ", user=" + user +
-                ", valor=" + valor +
+                ", value=" + value +
                 ", registrationDate=" + registrationDate +
                 ", launchType=" + launchType +
                 ", launchStatus=" + launchStatus +
