@@ -60,8 +60,8 @@ public class LaunchService {
 
     //retorna  receita - despesas
     public BigDecimal getBalanceByUser(Long id){
-        BigDecimal revenue = launchRepository.getBalanceByUser(id, LaunchType.REVENUE.name());
-        BigDecimal expense = launchRepository.getBalanceByUser(id, LaunchType.EXPENSE.name());
+        BigDecimal revenue = launchRepository.getBalanceByUser(id, LaunchType.REVENUE, LaunchStatus.EFFECTED);
+        BigDecimal expense = launchRepository.getBalanceByUser(id, LaunchType.EXPENSE, LaunchStatus.EFFECTED);
         if(revenue == null){
             revenue = BigDecimal.ZERO;
         }

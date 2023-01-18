@@ -7,11 +7,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import tabia.health.myfinances.model.entity.Launch;
+import tabia.health.myfinances.model.enums.LaunchStatus;
+import tabia.health.myfinances.model.enums.LaunchType;
 
 public interface LaunchRepository extends JpaRepository <Launch, Long> {
 
-    @Query(value = "SELECT sum(l.value) FROM Launch l JOIN l.user u"
-    + "WHERE u.id =:idUser and l.launchType =:type GROUP BY u ")
-    BigDecimal getBalanceByUser(@Param("idUser") Long idUser, String type);
-
+    @Query(value = " select sum(l.value) from Launch l join l.user u  where u.id = :idUser and l.launchType =:type and l.launchStatus = :status group by u ")
+    BigDecimal getBalanceByUser(@Param("idUser") Long idUser, 
+                                @Param("type")   LaunchType type, 
+                                @Param("status") LaunchStatus status );
+    
+    
 }
